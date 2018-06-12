@@ -1,5 +1,5 @@
 # render_functions.py
-
+from tdl import get_fps
 from enum import Enum
 from game_states import GameStates
 from menus import char_screen, inventory_menu, level_up_menu
@@ -30,6 +30,9 @@ def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_c
     x_centered = x + int((total_width-len(text)) /2)
 
     panel.draw_str(x_centered, y, text, fg=string_color, bg=None)
+
+def on_screen(x, y, player_x, player_y, screen_width, screen_height):
+    return x < (player_x-screen_width/2) and x > (player_x+screen_width/2) and x < (player_y-screen_height/2) and y > (player_y+screen_height/2)
 
 def render_all(con, panel, entities, player, game_map, fov_recompute, root_console, message_log,
  screen_width, screen_height, bar_width, panel_height, panel_y, mouse_coordinates, colors, game_state, animations):
@@ -67,13 +70,13 @@ def render_all(con, panel, entities, player, game_map, fov_recompute, root_conso
         panel.draw_str(message_log.x, y, message.text, bg=None, fg=message.color)
         y += 1
 
-    root_console.blit(con, 0, 0, screen_width, screen_height, 0, 0)
-
+    root_console.blit(con, 0, 0, screen_width, screen_height, (player.x-screen_width/2), (player.y-screen_height/2))
     render_bar(panel, 1, 1, bar_width, 'HP', player.fighter.hp, player.fighter.max_hp, colors.get('light_red'), colors.get('darker_red'), colors.get('black'))
     
     panel.draw_str(1, 3, 'Dungeon Level: {0}'.format(game_map.dungeon_level), fg=colors.get('white'), bg=None)
 
     panel.draw_str(1, 0, get_names_under_mouse(mouse_coordinates, entities, game_map))
+    panel.draw_str(1, 4, 'FPS: {0}'.format(get_fps()))
     
     root_console.blit(panel, 0, panel_y, screen_width, panel_height, 0, 0)
 

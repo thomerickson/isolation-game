@@ -12,6 +12,7 @@ class BasicMonster:
         if game_map.fov[monster.x, monster.y]:
             if monster.distance_to(target) >= 2 and monster.distance_to(target) <= 6:
                 monster.move_towards(target.x, target.y, game_map, entities)
+                results.append({'move': True})
             elif monster.distance_to(target) <= 1 and target.fighter.hp > 0:
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
@@ -32,6 +33,7 @@ class ConfusedMonster():
 
             if random_x != self.owner.x and random_y != self.owner.y:
                 self.owner.move_towards(random_x, random_y, game_map, entities)
+                results.append({'move':True})
 
             self.number_of_turns -= 1
         else:

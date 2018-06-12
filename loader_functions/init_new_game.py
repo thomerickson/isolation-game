@@ -13,7 +13,7 @@ from map_utils import GameMap, make_map
 from render_functions import RenderOrder
 
 def get_constants():
-    target_fps = 60
+    target_fps = 50
 
     window_title = 'Isolation'
 
@@ -28,8 +28,8 @@ def get_constants():
     message_width = screen_width - bar_width -2
     message_height = panel_height - 1
 
-    map_width = 80
-    map_height = 43
+    map_width = 80 + screen_width
+    map_height = 43 + screen_height
 
     room_max_size = 10
     room_min_size = 6
@@ -106,7 +106,7 @@ def get_game_variables(constants):
 
     game_map = GameMap(constants['map_width'], constants['map_height'])
     make_map(game_map, constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],
-     constants['map_width'], constants['map_height'], player, entities, constants['colors'])
+     constants['map_width'], constants['map_height'], constants['screen_width'], constants['screen_height'], player, entities, constants['colors'])
 
     message_log = MessageLog(constants['message_x'], constants['message_width'], constants['message_height'])
 

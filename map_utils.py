@@ -120,8 +120,9 @@ def place_entities(room, entities, dungeon_level, colors):
             entities.append(item)
 
 def make_map(game_map, max_rooms, room_min_size, room_max_size, map_width,
- map_height, player, entities, colors):
-    # let's create two rooms for demo purposes:
+ map_height, screen_width, screen_height, player, entities, colors):
+    print("map width: {0}, map height: {1}".format(map_width, map_height))
+
     rooms = []
     num_rooms = 0
 
@@ -131,8 +132,8 @@ def make_map(game_map, max_rooms, room_min_size, room_max_size, map_width,
     for r in range(max_rooms):
         w = randint(room_min_size, room_max_size)
         h = randint(room_min_size, room_max_size)
-        x = randint(0, map_width - w - 1)
-        y = randint(0, map_height - h - 1)
+        x = randint(screen_width/2, map_width - w - 1 - screen_width/2)
+        y = randint(screen_height/2, map_height - h - 1 - screen_height/2)
 
         # use "Rect" class to make new rooms
         new_room = Rect(x, y, w, h)
@@ -178,7 +179,7 @@ def next_floor(player, message_log, dungeon_level, constants):
     entities = [player]
 
     make_map(game_map, constants['max_rooms'], constants['room_min_size'],
-             constants['room_max_size'], constants['map_width'], constants['map_height'], player,
+             constants['room_max_size'], constants['map_width'], constants['map_height'], constants['screen_width'], constants['screen_height'], player,
              entities, constants['colors'])
 
     player.fighter.heal(player.fighter.max_hp // 2)

@@ -19,7 +19,7 @@ def main():
     constants = get_constants()
 
     root_console = tdl.init(constants['screen_width'], constants['screen_height'], title=constants['window_title'], renderer="OPENGL")
-    con = tdl.Console(constants['screen_width'], constants['screen_height'])
+    con = tdl.Console(constants['map_width'], constants['map_height'])
     panel = tdl.Console(constants['screen_width'], constants['panel_height'])
 
     player = None
@@ -313,6 +313,8 @@ def play_game(player, entities, game_map, message_log, game_state, root_console,
             for entity in entities:
                 if entity.ai:
                     enemy_turn_results = entity.ai.take_turn(player, game_map, entities)
+                    if enemy_turn_results:
+                        fov_recompute = True
                     for enemy_turn_result in enemy_turn_results:
                         message = enemy_turn_result.get('message')
                         dead_entity = enemy_turn_result.get('dead')
